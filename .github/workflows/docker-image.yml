@@ -15,4 +15,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag urjitbhatia/buckit:${{ github.run_number }}
+      run: |
+        docker build . --file Dockerfile --tag urjitbhatia/buckit:${{ github.run_number }}
+        docker push urjitbhatia/buckit:${{ github.run_number }}
