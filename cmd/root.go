@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/cobra"
 	"log"
 	"os"
@@ -38,9 +39,24 @@ var rootCmd = &cobra.Command{
 		fetcher := App{}
 		err := viper.Unmarshal(&fetcher.Config)
 		if err != nil {
-			log.Fatalln("couldn't read config file")
+			log.Fatalln("couldn't parse config file")
 		}
 		log.Println("Starting...")
+
+		viper.OnConfigChange(func(in fsnotify.Event) {
+			log.Printf("Dynamically updating config. File changed: %s", in.Name)
+			newCfg := &config{}
+			err := viper.Unmarshal(newCfg)
+			if err != nil {
+				log.Printf("couldn't parse updated config file - changed won't take effect. Error: %s", err)
+				return
+			}
+			log.Println("Updated config")
+			// only change the dynamic bits
+			fetcher.Config.Buckits = newCfg.Buckits
+			fetcher.Config.ShutdownTimeout = newCfg.ShutdownTimeout
+		})
+		viper.WatchConfig()
 
 		sigChan := make(chan os.Signal)
 		go registerSignals(sigChan, &fetcher)

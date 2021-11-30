@@ -37,7 +37,7 @@ type App struct {
 func (a *App) Start() {
 	a.server = &http.Server{
 		Addr:           fmt.Sprintf(":%d", a.Config.Port),
-		Handler:        serveFn(a.Config.Buckits),
+		Handler:        a.handlerFunc(),
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
@@ -51,9 +51,9 @@ func (a *App) Stop() error {
 	return a.server.Shutdown(ctx)
 }
 
-func serveFn(buckits []buckit) http.HandlerFunc {
+func (a *App) handlerFunc() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		for _, b := range buckits {
+		for _, b := range a.Config.Buckits {
 			if b.HostName == r.Host {
 				fetchResource(w, r, b)
 				return
@@ -91,6 +91,8 @@ func fetchResource(w http.ResponseWriter, r *http.Request, b buckit) {
 		http.Error(w, "cannot find data", http.StatusNotFound)
 		return
 	}
+	defer br.Close()
+
 	_, err = br.WriteTo(w)
 	if err != nil {
 		log.Println(err)
