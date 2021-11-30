@@ -24,4 +24,5 @@ Buckits:
     BucketName: bar-source-bucket
     Region: us-east-1
 ```
+
 2. Run buckit: `go run main.go` 
