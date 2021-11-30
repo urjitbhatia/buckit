@@ -7,4 +7,4 @@ RUN go build -o buckit
 FROM alpine
 
 COPY --from=builder /app/buckit /usr/local/bin/
-ENTRYPOINT buckit
+ENTRYPOINT ["buckit"]
