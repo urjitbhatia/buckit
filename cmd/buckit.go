@@ -53,6 +53,10 @@ func (a *App) Stop() error {
 
 func (a *App) handlerFunc() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "method not supported", http.StatusMethodNotAllowed)
+			return
+		}
 		for _, b := range a.Config.Buckits {
 			if b.HostName == r.Host {
 				fetchResource(w, r, b)
