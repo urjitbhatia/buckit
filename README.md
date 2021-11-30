@@ -7,7 +7,7 @@ the world or enable bucket website mode.
 
 - Multiple buckets are supported
 - Each bucket can have custom credentials
-- Dynamic config [Coming soon]
+- Dynamic config
 
 ## Running Buckit
 
