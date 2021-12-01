@@ -99,6 +99,7 @@ func fetchResource(w http.ResponseWriter, r *http.Request, b buckit) {
 		return
 	}
 	defer br.Close()
+	w.Header().Set("Content-Type", br.ContentType())
 
 	_, err = br.WriteTo(w)
 	if err != nil {
@@ -106,6 +107,5 @@ func fetchResource(w http.ResponseWriter, r *http.Request, b buckit) {
 		http.Error(w, "cannot fetch data", http.StatusInternalServerError)
 		return
 	}
-	w.Header().Add("Content/Type", br.ContentType())
 	defer bucket.Close()
 }
