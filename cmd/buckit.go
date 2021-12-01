@@ -69,6 +69,9 @@ func (a *App) handlerFunc() http.HandlerFunc {
 
 func fetchResource(w http.ResponseWriter, r *http.Request, b buckit) {
 	path := r.URL.Path
+	if path == "" {
+		path = "index.html"
+	}
 	// Establish an AWS session.
 	// See https://docs.aws.amazon.com/sdk-for-go/api/aws/session/ for more info.
 	// The region must match the region for "my-bucket".
