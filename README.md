@@ -25,4 +25,5 @@ Buckits:
     Region: us-east-1
 ```
 
-2. Run buckit: `go run main.go` 
+2. Run buckit: `go run main.go`
+3. Fetch content from your bucket `curl -H"Host:foo.com" localhost:9006/index.html`
