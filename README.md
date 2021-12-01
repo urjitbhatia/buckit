@@ -24,6 +24,10 @@ Buckits:
     BucketName: bar-source-bucket
     Region: us-east-1
 ```
+2. Run buckit
+  - Running via Docker
+    - `docker run --rm --name buckit -v $PWD/.buckit.yaml:/.buckit.yaml ghcr.io/urjitbhatia/buckit:master -c /.buckit.yaml"`
+  - Running directly from source
+    - `go run main.go`
 
-2. Run buckit: `go run main.go`
 3. Fetch content from your bucket `curl -H"Host:foo.com" localhost:9006/index.html`
