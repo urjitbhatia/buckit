@@ -69,7 +69,7 @@ func (a *App) handlerFunc() http.HandlerFunc {
 
 func fetchResource(w http.ResponseWriter, r *http.Request, b buckit) {
 	path := r.URL.Path
-	if path == "" {
+	if path == "/"  {
 		path = "index.html"
 	}
 	// Establish an AWS session.
